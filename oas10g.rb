@@ -17,14 +17,13 @@ module MCollective
           containers[con[1]] = {:type => con[0], :status => con[2]}
         end
 
-
-        reply[:status] = status
-
         if request[:name]
-          reply[:name] = containers[request[:name]]
-        else
-          reply[:name] = container_list
+          containers.select! do |container|
+            container == request[:name]
+          end
         end
+
+        reply[:results] = containers
 
       end
 

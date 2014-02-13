@@ -12,7 +12,7 @@ action "container_status", :description => "Retrieves current status of OAS cont
         :description => "OAS Type for the container",
         :type        => :list,
         :optional    => true,
-        :list        => ['oc4j','OC4J']
+        :list        => ['oc4j']
 
    input :name,
         :prompt      => "Container Name",
@@ -22,17 +22,9 @@ action "container_status", :description => "Retrieves current status of OAS cont
         :optional    => true,
         :maxlength   => 30
 
-   output :type,
-        :description => "OAS Type for the container displayed",
-        :display_as  => "Container Type"
+   output :results,
+        :description => "Statuses of found containers",
+        :display_as  => "Container Results"
 
-   output :name,
-        :description => "OAS Name for the container displayed",
-        :display_as  => "Container Name"
-
-  output :status,
-        :description => "Status of the container",
-        :display_as  => "Status",
-        :default     => "unknown status"
 end
 
