@@ -17,16 +17,21 @@ module MCollective
           containers[con[1]] = {:type => con[0], :status => con[2]}
         end
 
+        # TODO - We may need to sanitze the input data, as in to_upper it or something
+        if request[:type]
+          containers.select! do |name,data|
+            data[:type] == request[:type]
+          end
+        end
+
         if request[:name]
-          containers.select! do |container|
-            container == request[:name]
+          containers.select! do |name|
+            name == request[:name]
           end
         end
 
         reply[:results] = containers
-
       end
-
 
     end
   end
