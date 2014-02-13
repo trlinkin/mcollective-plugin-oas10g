@@ -30,7 +30,7 @@ end
 
 action :app_status, :description => "Retrieves current status of an OAS application" do
   input :name,
-        :promt       => "Application Name"
+        :promt       => "Application Name",
         :description => "Name of the OAS Application to retrieve status for",
         :optional    => :true,
         :type        => :string,
@@ -39,7 +39,7 @@ action :app_status, :description => "Retrieves current status of an OAS applicat
 
   input :container,
         :prompt      => "Container Name",
-        :description => "Name of the OAS container to retrieve application statuses for"
+        :description => "Name of the OAS container to retrieve application statuses for",
         :optional    => false,
         :type        => :string,
         :validation  => '^[a-zA-Z\-_\d]+$',
