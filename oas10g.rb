@@ -4,11 +4,11 @@ module MCollective
 
       action "container_status" do
 
-        container_list = []
-        err = ""
+        container_list = String.new
+        err = String.new
         status = run("/u03/devmidr2/opmn/bin/opmnctl status -noheaders -rsep ',' -fsep '|' -fmt %typ%prt%sta", :stdout => container_list, :stderr => err)
 
-        records = container_list.first.split(',')
+        records = container_list.split(',')
         containers = Hash.new
 
         records.map do |container|
