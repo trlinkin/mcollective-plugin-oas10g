@@ -33,6 +33,19 @@ module MCollective
         reply[:results] = containers
       end
 
+###### Application Status Action
+      action :app_status do
+
+        options = "-co #{request[:container]}"
+        if request[:application]
+          options += " -a #{request[:application]}"
+        end
+
+        apps_raw = String.new
+        err = String.new
+        status = run("/u03/devmidr2/dcm/bin/dcmctl listApplications #{options}", :stdout => apps_raw, :stderr => err)
+
+      end
     end
   end
 end
