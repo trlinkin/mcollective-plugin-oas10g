@@ -4,7 +4,7 @@ metadata :name        => "OAS 10gR2 Application Control",
          :version     => "1.0",
          :license     => "None",
          :url         => "None",
-         :timeout     => 60
+         :timeout     => 300
 
 action "container_status", :description => "Retrieves current status of OAS container" do
   input :type,
@@ -28,9 +28,10 @@ action "container_status", :description => "Retrieves current status of OAS cont
 
 end
 
-action :app_status, :description => "Retrieves current status of an OAS application" do
-  input :name,
-        :promt       => "Application Name",
+# DN change made here (quotes)
+action "app_status", :description => "Retrieves current status of an OAS application" do
+  input :application,
+        :prompt       => "Application Name", # DN change made here (prompt spelled wrong)
         :description => "Name of the OAS Application to retrieve status for",
         :optional    => :true,
         :type        => :string,

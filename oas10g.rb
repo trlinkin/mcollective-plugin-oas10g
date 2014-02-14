@@ -6,7 +6,7 @@ module MCollective
 
         container_list = String.new
         err = String.new
-        status = run("/u03/devmidr2/opmn/bin/opmnctl status -noheaders -rsep ',' -fsep '|' -fmt %typ%prt%sta", :stdout => container_list, :stderr => err)
+        status = run("/bin/su - ora_ias -c \"/u03/devmidr2/opmn/bin/opmnctl status -noheaders -rsep ',' -fsep '|' -fmt %typ%prt%sta\"", :stdout => container_list, :stderr => err)
 
         if not status == 0
           fail!("Execution fail with error: #{err}")
@@ -38,7 +38,7 @@ module MCollective
       end
 
       ###### Application Status Action
-      action :app_status do
+      action "app_status" do
 
         options = "-co #{request[:container]}"
         if request[:application]
@@ -47,7 +47,7 @@ module MCollective
 
         apps_raw = String.new
         err = String.new
-        status = run("/u03/devmidr2/dcm/bin/dcmctl listApplications #{options}", :stdout => apps_raw, :stderr => err)
+        status = run("/bin/su - ora_ias -c \"/u03/devmidr2/dcm/bin/dcmctl listApplications #{options}\"", :stdout => apps_raw, :stderr => err)
 
         if not status == 0
           fail!("Execution fail with error: #{err}")
@@ -63,7 +63,7 @@ module MCollective
           name.strip
         end
 
-        reply[:results]
+        reply[:results] = apps_raw
       end
 
       ######## Application Deployment Action
@@ -119,7 +119,7 @@ module MCollective
 
         if grandchild then
           reply[:pid] = grandchild
-          reply[:summary] = "Application is being deployed.  Please wait."
+          reply[:summary] = "Application deployment started.  Please wait."
         else
           reply[:summary] = "Application failed to be deployed.  Please check the nonexistent log files."
           fail!("Execution failed - deployment not started")
@@ -153,7 +153,7 @@ module MCollective
               #status = run("/bin/su - ora_ias -c \"/u03/devmidr2/dcm/bin/dcmctl undeployApplication -a #{request[:a_name]} -co #{request[:c_name]}\"", :stdout => what, :stderr => err)
               exec("/bin/su - ora_ias -c \"/u03/devmidr2/dcm/bin/dcmctl undeployApplication -a #{request[:a_name]} -co #{request[:c_name]}\"")
             rescue SystemCallError
-              puts "There was an error executing the command. Check the nonexistent log files."
+              1
             end
           end
 
@@ -191,7 +191,7 @@ module MCollective
         # Return summary
         if grandchild then
           reply[:pid] = grandchild
-          reply[:summary] = "Application is being undeployed.  Please wait."
+          reply[:summary] = "Application undeployment started.  Please wait."
         else
           reply[:summary] = "Application failed to be undeployed.  Please check the nonexistent log files."
           fail!("Execution failed - deployment not started")
