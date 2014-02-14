@@ -14,7 +14,7 @@ action "container_status", :description => "Retrieves current status of OAS cont
         :optional    => true,
         :list        => ['oc4j']
 
-   input :name,
+  input :name,
         :prompt      => "Container Name",
         :description => "OAS Name for the container",
         :type        => :string,
@@ -22,9 +22,30 @@ action "container_status", :description => "Retrieves current status of OAS cont
         :optional    => true,
         :maxlength   => 30
 
-   output :results,
-        :description => "Statuses of found containers",
-        :display_as  => "Container Results"
+  output :results,
+         :description => "Statuses of found containers",
+         :display_as  => "Container Results"
 
 end
 
+action :app_status, :description => "Retrieves current status of an OAS application" do
+  input :name,
+        :promt       => "Application Name",
+        :description => "Name of the OAS Application to retrieve status for",
+        :optional    => :true,
+        :type        => :string,
+        :validation  => '^[a-zA-Z\-_\d]+$',
+        :maxlength   => 30
+
+  input :container,
+        :prompt      => "Container Name",
+        :description => "Name of the OAS container to retrieve application statuses for",
+        :optional    => false,
+        :type        => :string,
+        :validation  => '^[a-zA-Z\-_\d]+$',
+        :maxlength   => 30
+
+  output :results,
+         :description => "Application Status Results as hash, empty if no results are found",
+         :display_as  => "Application Status Results"
+end
