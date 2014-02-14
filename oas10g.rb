@@ -54,13 +54,15 @@ module MCollective
         end
 
 
-        apps = apps_raw.split(/^\d/)
+        apps = apps_raw.strip.split(/^\d/)
         apps.reject!{ |x| x.to_s.empty? }
+        apps.select!{ |x| a =~ /Application/ }
 
         apps.map! do |app|
           app.strip!
           name = app.split(/\n/).first
           name.strip
+          name.split(':')[1].strip
         end
 
         reply[:results] = apps_raw
